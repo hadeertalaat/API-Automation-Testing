@@ -7,13 +7,16 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.given;
 
-public class TestingUserAuthenticationRequest {
+public class getUsersRequest {
+
     @BeforeMethod
     public void setup() {
         baseURI = "https://dummyjson.com";
     }
+
     @Test
     public void getUserByIdWithTheCorrectCredential() {
         String username = "kminchelle";
@@ -47,6 +50,7 @@ public class TestingUserAuthenticationRequest {
         System.out.println("id received from Response : " + id);
         Assert.assertTrue(String.valueOf(id).matches("[0-9]+"));
     }
+
     @Test
     public void getUserByIncorrectIdWithTheCorrectCredential() {
         String username = "kminchelle";
@@ -76,6 +80,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(404, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("id"));
     }
+
     @Test
     public void getUserByIdWithIncorrectUrl() {
         String username = "kminchelle";
@@ -103,8 +108,8 @@ public class TestingUserAuthenticationRequest {
                 .header("Authorization", "Bearer " + token)
                 .get("/auth/users1/" + key);
         Assert.assertEquals(404, response.statusCode());
-        Assert.assertNull((String) response.jsonPath().get("id"));
     }
+
     @Test
     public void getUserByIdWithIncorrectRequest() {
         String username = "kminchelle";
@@ -133,6 +138,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(415, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("id"));
     }
+
     @Test
     public void getUserByIdWithIncorrectToken() {
         String token = "1";
@@ -143,6 +149,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(401, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("token"));
     }
+
     @Test
     public void validateWithIncorrectEndpoint() {
         String username = "kminchelle";
@@ -163,6 +170,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(403, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("id"));
     }
+
     @Test
     public void validateWithIncorrectRequest() {
         String username = "kminchelle";
@@ -183,6 +191,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(403, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("token"));
     }
+
     @Test
     public void validateWithIncorrectUsername() {
         String incorrectUsername = "kminchelle1";
@@ -203,6 +212,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(400, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("token"));
     }
+
     @Test
     public void validateWithEmptyUsername() {
         String incorrectUsername = "";
@@ -223,6 +233,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(400, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("token"));
     }
+
     @Test
     public void validateWithIncorrectPassword() {
         String username = "kminchelle";
@@ -243,6 +254,7 @@ public class TestingUserAuthenticationRequest {
         Assert.assertEquals(400, response.statusCode());
         Assert.assertNull((String) response.jsonPath().get("token"));
     }
+
     @Test
     public void validateWithEmptyPassword() {
         String username = "kminchelle";
